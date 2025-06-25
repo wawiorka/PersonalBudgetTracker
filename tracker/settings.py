@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
+from datetime import timedelta
+
 import environ
 from pathlib import Path
 env = environ.Env()
@@ -75,14 +77,18 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),}
+
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',  # меры безопасности
+    'django.contrib.sessions.middleware.SessionMiddleware',  # управляет сессиями через запросы
+    'django.middleware.common.CommonMiddleware',  # + за обработку ошибок 404 и 500
+    'django.middleware.csrf.CsrfViewMiddleware',  # защищает от атак межсайтовой подделки запросов (CSRF)
+    'django.contrib.auth.middleware.AuthenticationMiddleware',  # связывает пользователей с запросами
+    'django.contrib.messages.middleware.MessageMiddleware',  # обрабатывает временные сообщения
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',  # защищает веб-приложение от атак типа clickjacking
 ]
 
 ROOT_URLCONF = 'tracker.urls'
@@ -90,10 +96,11 @@ ROOT_URLCONF = 'tracker.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
