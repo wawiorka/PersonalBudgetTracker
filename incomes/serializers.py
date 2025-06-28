@@ -11,7 +11,7 @@ class IncomeCategorySerializer(serializers.ModelSerializer):
 
 
 class IncomeSerializer(serializers.ModelSerializer):
-    balance = BalanceSerializer(many=True)
+    # balance = BalanceSerializer(many=True)
     class Meta:
         model = Income
         fields = '__all__'
