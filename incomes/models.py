@@ -10,7 +10,7 @@ from users.models import User
 
 class IncomeCategory(models.Model):
     name = models.CharField(max_length=50)
-    date_created = models.DateField(default=timezone.now)
+    date_created = models.DateTimeField(auto_now_add=True)
     is_default = models.BooleanField(default=False)
 
     def __str__(self):
@@ -20,7 +20,7 @@ class IncomeCategory(models.Model):
 class Income(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='incomes')
     amount = models.DecimalField(max_digits=12, decimal_places=2)
-    date = models.DateField(default=timezone.now)
+    date = models.DateTimeField(auto_now=True)
     category = models.ForeignKey(IncomeCategory, on_delete=models.CASCADE, related_name='incomes')
 
     def __str__(self):
