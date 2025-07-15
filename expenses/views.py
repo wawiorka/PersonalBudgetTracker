@@ -38,9 +38,25 @@ class ExpenseView(viewsets.ModelViewSet):
                     serializer.save()
                     Balance.objects.filter(user=self.request.user,
                                            type=1).update(value=F('value') - serializer.validated_data.get('amount'),
-                                    date=serializer.validated_data.get('date'))
+                                                          date=serializer.validated_data.get('date'))
                     return Response({'message': 'Расход учтен в бюджете.'}, status=status.HTTP_201_CREATED)
                 if balance.value < serializer.validated_data.get('amount'):
                     return Response({'message': 'В текущем бюджете не хватает средств.'}, status=status.HTTP_400_BAD_REQUEST)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+    # def delete(self, request, *args, **kwargs):
+    #     serializer = ExpenseSerializer(data=request.data)
+    #     if serializer.is_valid(raise_exception=True):
+    #         with transaction.atomic():
+    #             balance=Balance.objects.get(user=self.request.user, type=1)
+    #             if balance.value >= serializer.validated_data.get('amount'):
+    #                 serializer.save()
+    #                 Balance.objects.filter(user=self.request.user,
+    #                                        type=1).update(value=F('value') - serializer.validated_data.get('amount'),
+    #                                 date=serializer.validated_data.get('date'))
+    #                 return Response({'message': 'Расход учтен в бюджете.'}, status=status.HTTP_201_CREATED)
+    #             if balance.value < serializer.validated_data.get('amount'):
+    #                 return Response({'message': 'В текущем бюджете не хватает средств.'}, status=status.HTTP_400_BAD_REQUEST)
+    #     return Response(status=status.HTTP_400_BAD_REQUEST)
 

@@ -20,7 +20,7 @@ class IncomeCategory(models.Model):
 class Income(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='incomes')
     amount = models.DecimalField(max_digits=12, decimal_places=2)
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(IncomeCategory, on_delete=models.CASCADE, related_name='incomes')
 
     def __str__(self):
