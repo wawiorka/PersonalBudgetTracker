@@ -8,7 +8,7 @@ from .models import Expense, ExpenseCategory
 
 @admin.register(Expense)
 class ExpenseAdmin(admin.ModelAdmin):
-    exclude = ('user',) # скрыть author поле, чтобы оно не отображалось в форме изменений
+    exclude = ('user',) # скрыть поле, чтобы оно не отображалось в форме изменений
 
     def save_model(self, request, obj, form, change):
         if not obj.pk:

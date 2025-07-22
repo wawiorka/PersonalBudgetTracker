@@ -31,7 +31,7 @@ class ExpenseView(viewsets.ModelViewSet):
         return Expense.objects.filter(user=self.request.user)
 
     def create(self, request, *args, **kwargs):
-        serializer = ExpenseSerializer(data=request.data)
+        serializer = ExpenseSerializer(data=request.data, context={'request': request})
         if serializer.is_valid(raise_exception=True):
             with transaction.atomic():
                 balance=Balance.objects.get(user=self.request.user, type=1)

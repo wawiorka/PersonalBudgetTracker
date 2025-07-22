@@ -32,7 +32,7 @@ class IncomeView(viewsets.ModelViewSet):
         return Income.objects.filter(user=self.request.user)
 
     def create(self, request, *args, **kwargs):
-        serializer = IncomeSerializer(data=request.data)
+        serializer = IncomeSerializer(data=request.data, context={'request': request})
         if serializer.is_valid(raise_exception=True):
             with transaction.atomic():
                 balance = Balance.objects.filter(user=self.request.user, type=1)
