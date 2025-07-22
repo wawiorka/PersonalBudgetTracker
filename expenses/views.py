@@ -3,6 +3,7 @@ from django.db import transaction
 from django.db.models import F
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.utils import timezone
 from django.views.generic import ListView, CreateView
 from rest_framework import viewsets, status, views
 from rest_framework.generics import get_object_or_404
@@ -38,7 +39,7 @@ class ExpenseView(viewsets.ModelViewSet):
                     serializer.save()
                     Balance.objects.filter(user=self.request.user,
                                            type=1).update(value=F('value') - serializer.validated_data.get('amount'),
-                                                          date=serializer.validated_data.get('date'))
+                                                          date=serializer.validated_data.get('date') or timezone.now())
                     return Response({'message': 'Расход учтен в бюджете.'}, status=status.HTTP_201_CREATED)
                 if balance.value < serializer.validated_data.get('amount'):
                     return Response({'message': 'В текущем бюджете не хватает средств.'}, status=status.HTTP_400_BAD_REQUEST)
