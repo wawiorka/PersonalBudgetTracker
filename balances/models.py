@@ -3,6 +3,9 @@ from django.utils import timezone
 
 from users.models import User
 
+from tracker import settings
+
+
 # Create your models here.
 # class BalanceType(models.Model):
 #     name = models.CharField(max_length=50)
@@ -19,10 +22,10 @@ class Balance(models.Model):
         CUR = 1, "Текущий"
         SAV = 2, "Накопления"
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     value = models.DecimalField(max_digits=10, decimal_places=2)
     type = models.PositiveSmallIntegerField(choices=BalanceType.choices, default=1)
-    date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f'User: {self.user}, balance: {self.value} - type {self.type}'

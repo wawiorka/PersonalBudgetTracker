@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.db.models import F
 from django.shortcuts import render
+from django.utils import timezone
 from django.views.generic import ListView, CreateView
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
@@ -39,13 +40,13 @@ class IncomeView(viewsets.ModelViewSet):
                     serializer.save()
                     balance.create(value=serializer.validated_data.get('amount'),
                                    type=1,
-                                   date=serializer.validated_data.get('date'),
+                                   date=serializer.validated_data.get('date') or timezone.now(),
                                    user=self.request.user)
                     return Response({'message': 'Личный бюджет начат.'}, status=status.HTTP_201_CREATED)
                 elif len(balance) > 0:
                     serializer.save()
                     balance.update(value=F('value')+serializer.validated_data.get('amount'),
-                                   date=serializer.validated_data.get('date'))
+                                   date=serializer.validated_data.get('date') or timezone.now())
                     return Response({'message': 'Доход добавлен в бюджет.'}, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
