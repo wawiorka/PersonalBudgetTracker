@@ -40,8 +40,7 @@ class BalanceView(viewsets.ModelViewSet):
                                    date=serializer.validated_data.get('date') or timezone.now(),
                                    user=self.request.user)
                 else:
-                    balance.update(value=F('value') + serializer.validated_data.get('value'),
-                                   type=2,
+                    balance.filter(type=2).update(value=F('value') + serializer.validated_data.get('value'),
                                    date=serializer.validated_data.get('date') or timezone.now(),
                                    user=self.request.user)
                 return Response({'message': 'Накопление добавлено.'},
