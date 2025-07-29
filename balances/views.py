@@ -9,7 +9,10 @@ from .models import Balance
 from .serializers import BalanceSerializer
 
 
-class BalanceView(viewsets.ModelViewSet):
+class BalanceView(viewsets.ViewSet):
+    """Перенос денежной суммы внутри баланса:
+    на текущий счет - 1;
+    на накопления - 2"""
     serializer_class = BalanceSerializer
     permission_classes = [IsAuthenticated]
 
