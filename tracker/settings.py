@@ -76,6 +76,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'COERCE_DECIMAL_TO_STRING': False
 }
 
 SIMPLE_JWT = {
