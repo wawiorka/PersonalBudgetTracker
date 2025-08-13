@@ -1,0 +1,53 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Incomes Pie Chart</title>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+    </head>
+    <body>
+        <div id="container" style="width:100%; height:400px;"></div>
+
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function () {
+                var data = {{ data|safe }};
+                var chartData = [];
+                for (var i = 0; i < data.length; i++) {
+                    chartData.push({
+                        name: data[i].category__name,
+                        y: data[i].total_amount
+                    })
+                }
+
+                Highcharts.chart('container', {
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Incomes Dashboard'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'Category',
+                        colorByPoint: true,
+                        data: chartData
+                    }]
+                });
+            });
+        </script>
+    </body>
+    </html>

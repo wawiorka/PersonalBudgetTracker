@@ -2,6 +2,8 @@ from django.db.models import F
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import viewsets, status
+from rest_framework.decorators import action
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, ListModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -9,10 +11,8 @@ from .models import Balance
 from .serializers import BalanceSerializer
 
 
-class BalanceView(viewsets.ViewSet):
-    """Перенос денежной суммы внутри баланса:
-    на текущий счет - 1;
-    на накопления - 2"""
+class BalanceView(CreateModelMixin, ListModelMixin, viewsets.GenericViewSet):
+    '''Баланс авторизованного пользователя. '''
     serializer_class = BalanceSerializer
     permission_classes = [IsAuthenticated]
 
@@ -20,6 +20,9 @@ class BalanceView(viewsets.ViewSet):
         return Balance.objects.filter(user=self.request.user)
 
     def create(self, request, *args, **kwargs):
+        """Перенос денежной суммы внутри баланса:
+        на текущий счет - 1;
+        на накопления - 2"""
         serializer = BalanceSerializer(data=request.data, context={'request': request})
         if serializer.is_valid(raise_exception=True):
             balance = Balance.objects.filter(user=self.request.user)
