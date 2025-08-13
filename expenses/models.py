@@ -1,5 +1,6 @@
 from django.contrib.auth.models import Group
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 
 from users.models import User
@@ -16,12 +17,15 @@ class ExpenseCategory(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('graph_view', kwargs={'category': self.name})
+
 
 class Expense(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='expenses')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     date = models.DateTimeField(auto_now_add=True)
-    category = models.ForeignKey(ExpenseCategory, on_delete=models.CASCADE, related_name='expenses')
+    category = models.ForeignKey(ExpenseCategory, on_delete=models.PROTECT, verbose_name='expense_category')
 
     def __str__(self):
         return f"{self.amount} - {self.date} - {self.category}"

@@ -4,7 +4,6 @@ from django.db import migrations
 
 def add_default_categories(apps, schema_editor):
     ExpenseCategory = apps.get_model('expenses', 'ExpenseCategory')
-    ExpenseCategory.objects.get_or_create(name='Зарплата', is_default=True)
     ExpenseCategory.objects.get_or_create(name='Еда', is_default=True),
     ExpenseCategory.objects.get_or_create(name='Кафе', is_default=True),
     ExpenseCategory.objects.get_or_create(name='Развлечения', is_default=True),
