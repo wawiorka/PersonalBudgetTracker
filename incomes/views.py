@@ -54,12 +54,10 @@ class IncomeCategoryView(mixins.CreateModelMixin,
                    mixins.DestroyModelMixin,
                    mixins.ListModelMixin,
                    GenericViewSet):
-    '''CRUD по категориям доходов авторизованного пользователя.'''
+    '''CRUD по категориям доходов.'''
     serializer_class = IncomeCategorySerializer
     permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return IncomeCategory.objects.filter(user=self.request.user)
+    queryset = IncomeCategory.objects.all()
 
 
 class IncomeView(mixins.CreateModelMixin,

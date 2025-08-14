@@ -96,12 +96,10 @@ class ExpenseCategoryView(mixins.CreateModelMixin,
                    mixins.DestroyModelMixin,
                    mixins.ListModelMixin,
                    GenericViewSet):
-    '''CRUD по категориям расходов авторизованного пользователя.'''
+    '''CRUD по категориям расходов.'''
     serializer_class = ExpenseCategorySerializer
     permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        return ExpenseCategory.objects.filter(user=self.request.user)
+    queryset = ExpenseCategory.objects.all()
 
 class ExpenseView(mixins.CreateModelMixin,
                    # mixins.RetrieveModelMixin,
