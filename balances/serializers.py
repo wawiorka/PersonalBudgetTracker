@@ -14,8 +14,3 @@ class BalanceSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = self.context['request'].user
         return Balance.objects.create(**validated_data, user=user)
-    #
-    # class BalanceTypeSerializer(serializers.ModelSerializer):
-    #     class Meta:
-    #         model = Balance.type
-    #

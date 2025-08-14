@@ -34,7 +34,6 @@ class IncomeGraphView(APIView):
     '''Отображение расходов суммарно по категориям.'''
     permission_classes = [IsAuthenticated]
 
-
     def get(self, request):
         data = Income.objects.filter(user=request.user
                                       ).values('category__name'
@@ -92,6 +91,7 @@ class IncomeView(mixins.CreateModelMixin,
                                    date=serializer.validated_data.get('date') or timezone.now())
                     return Response({'message': 'Доход добавлен в бюджет.'}, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 class IncomeDeleteView(APIView):
     '''Удалить расход по id.'''

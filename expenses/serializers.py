@@ -38,12 +38,12 @@ class ExpenseGraphSerializer(serializers.ModelSerializer):
         fields = ['id', 'amount', 'date', 'user_id', 'category_id']
 
 
-class ExpenseGraphByTimeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Expense
-        fields = ['id', 'amount', 'date', 'user_id', 'category_id']
-
-    def create(self, instance, validated_data):
-        instance.start_date = validated_data['start_date']
-        instance.end_date = validated_data['end_date']
-        return instance
+# class ExpenseGraphByTimeSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Expense
+#         fields = ['id', 'amount', 'date', 'user_id', 'category_id']
+#
+#     def create(self, instance, validated_data):
+#         instance.start_date = validated_data['start_date']
+#         instance.end_date = validated_data['end_date']
+#         return instance

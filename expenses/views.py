@@ -62,32 +62,25 @@ class ExpenseGraphView(APIView):
         return JsonResponse(result, safe=False, status=status.HTTP_200_OK)
 
 
-class ExpenseGraphViewByTime(APIView):
-    '''Отображение расходов суммарно по категориям в указанный период времени.'''
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, *args, **kwargs):
-        serializer = ExpenseGraphByTimeSerializer(data=request.data, instance=instance)
-        # Получаем параметры запроса
-        user = self.request.user
-
-        start_date = request.query_params.get('start_date')
-        end_date = request.query_params.get('end_date')
-
-        # Преобразуем строки в объекты datetime
-        start_date = timezone.datetime.strptime(start_date, '%Y-%m-%d').date()
-        end_date = timezone.datetime.strptime(end_date, '%Y-%m-%d').date()
-
-        # Фильтруем записи по заданному периоду времени
-        expenses = Expense.objects.filter(date__range=[start_date, end_date])
-
-        # Группируем по категории и суммируем amount
-        grouped_expenses = expenses.values('category').annotate(total_amount=Sum('amount'))
-
-        # Преобразуем результат в JSON
-        result = list(grouped_expenses)
-
-        return JsonResponse(result, safe=False, status=status.HTTP_200_OK)
+# class ExpenseGraphViewByTime(APIView):
+#     '''Отображение расходов суммарно по категориям в указанный период времени.'''
+#     permission_classes = [IsAuthenticated]
+#
+#     def get(self, request, *args, **kwargs):
+#         serializer = ExpenseGraphByTimeSerializer(data=request.data, instance=instance)
+#         user = self.request.user
+#
+#         start_date = request.query_params.get('start_date')
+#         end_date = request.query_params.get('end_date')
+#
+#         start_date = timezone.datetime.strptime(start_date, '%Y-%m-%d').date()
+#         end_date = timezone.datetime.strptime(end_date, '%Y-%m-%d').date()
+#
+#         expenses = Expense.objects.filter(date__range=[start_date, end_date])
+#         grouped_expenses = expenses.values('category').annotate(total_amount=Sum('amount'))
+#         result = list(grouped_expenses)
+#
+#         return JsonResponse(result, safe=False, status=status.HTTP_200_OK)
 
 
 class ExpenseCategoryView(mixins.CreateModelMixin,
@@ -100,6 +93,7 @@ class ExpenseCategoryView(mixins.CreateModelMixin,
     serializer_class = ExpenseCategorySerializer
     permission_classes = [IsAuthenticated]
     queryset = ExpenseCategory.objects.all()
+
 
 class ExpenseView(mixins.CreateModelMixin,
                    # mixins.RetrieveModelMixin,
@@ -139,6 +133,7 @@ class ExpenseView(mixins.CreateModelMixin,
     #     serializer.is_valid(raise_exception=True)
     #     self.perform_update(serializer)
 
+
 class ExpenseDeleteView(APIView):
     '''Удалить расход по id.'''
     permission_classes = [IsAuthenticated]
@@ -154,4 +149,3 @@ class ExpenseDeleteView(APIView):
 
         except Expense.DoesNotExist:
             return Response({"error": "Расход (id) не найден."}, status=status.HTTP_404_NOT_FOUND)
-

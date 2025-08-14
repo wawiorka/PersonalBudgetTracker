@@ -1,15 +1,11 @@
-from django.contrib.auth.models import Group
 from django.db import models
-from django.utils import timezone
 
 from users.models import User
 
 from tracker import settings
 
 
-# доходы
 # Create your models here.
-
 class IncomeCategory(models.Model):
     name = models.CharField(max_length=50)
     date_created = models.DateTimeField(auto_now_add=True)

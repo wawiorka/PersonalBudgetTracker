@@ -17,11 +17,9 @@ class IncomeSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ["user"]
 
-
     def create(self, validated_data):
         user = self.context['request'].user
         return Income.objects.create(**validated_data, user=user)
-
 
 
 class IncomeDeleteSerializer(serializers.ModelSerializer):
@@ -39,4 +37,3 @@ class IncomeGraphSerializer(serializers.ModelSerializer):
     class Meta:
         model = Income
         fields = ['id', 'amount', 'date', 'user_id', 'category_id']
-

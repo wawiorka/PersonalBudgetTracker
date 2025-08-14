@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 from users.models import User
 
@@ -7,16 +6,6 @@ from tracker import settings
 
 
 # Create your models here.
-# class BalanceType(models.Model):
-#     name = models.CharField(max_length=50)
-#     date_created = models.DateField(default=timezone.now)
-#     is_default = models.BooleanField(default=False)
-#
-#     def __str__(self):
-#         return self.name
-#
-#
-
 class Balance(models.Model):
     class BalanceType(models.IntegerChoices):
         CUR = 1, "Текущий"
