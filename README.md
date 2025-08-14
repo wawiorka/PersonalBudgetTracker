@@ -26,7 +26,7 @@
 - [x] users : пользователи
 
 # Front-end part (html, js, css)
-- [x] Home : Старотовая страница
+- [x] Home : Стартовая страница
 - [x] Expense Dashboard : Диаграмма расходов
 - [x] Income Dashboard : Диаграмма доходов
 

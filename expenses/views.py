@@ -25,8 +25,7 @@ from rest_framework.viewsets import GenericViewSet, ReadOnlyModelViewSet
 from unicodedata import category
 
 from .models import Expense, ExpenseCategory
-from .serializers import ExpenseCategorySerializer, ExpenseSerializer, ExpenseGraphSerializer, \
-    ExpenseGraphByTimeSerializer
+from .serializers import ExpenseCategorySerializer, ExpenseSerializer, ExpenseGraphSerializer
 from balances.models import Balance
 
 from balances.serializers import BalanceSerializer
